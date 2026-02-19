@@ -121,8 +121,9 @@ docker exec -it nginx8081 /bin/bash
 
 ## Screenshots
 
-| Datei | Inhalt |
-|---|---|
-| `welcome_nginx.png` | Browser auf `http://localhost:8081` – nginx Welcome Page mit sichtbarer URL |
-| `02_nginx_status_exec.png` | Terminal mit `service nginx status` innerhalb des Containers |
-| `03_docker_ps.png` | Terminal mit Ausgabe von `docker ps -a` |
+| Datei | Vorschau |
+|------|---------|
+| welcome_nginx.png | ![](./welcome_nginx.png) |
+| 02_nginx_status_exec.png | ![](./02_nginx_status_exec.png) |
+| 03_docker_ps.png | ![](./03_docker_ps.png) |
+
