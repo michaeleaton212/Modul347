@@ -80,11 +80,7 @@ Erwartung:
 
 ---
 
-### 📸 Screenshot (DB)
 
-![Telnet DB Test](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/telnet.png)
-
----
 
 ## 2) Web – PHP + Apache Container
 
@@ -202,13 +198,6 @@ Erwartung:
 * `info.php` zeigt phpinfo()
 * `db.php` zeigt User-Liste aus mysql.user
 
----
-
-### 📸 Screenshots (Web)
-
-![info.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/infosite.png)
-
-![db.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/dbsite.png)
 
 ---
 
@@ -230,21 +219,13 @@ docker push michaeleatontbz/kn02b-web:kn02b-web
 
 ---
 
-## Abgabe-Checkliste
+### Screenshots
 
-**DB**
-* Dockerfile
-* docker build Befehl
-* docker run Befehl
-* Telnet Screenshot
+![Telnet DB Test](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/telnet.png)
 
-**Web**
-* Dockerfile
-* docker build Befehl
-* docker run Befehl
-* info.php Screenshot
-* db.php Screenshot
-* Angepasste PHP-Dateien
+![info.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/infosite.png)
+
+![db.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02B/dbsite.png)
 
 ---
 
