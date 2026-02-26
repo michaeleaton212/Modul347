@@ -131,7 +131,10 @@ docker logs kn02a-web
 
 ---
 
-## 6) Screenshot-Hinweise (gemäss Aufgabe)
+## 6) Screenshots
 
-* Screenshot Docker Desktop: Images → `michaeleatontbz/kn02a` mit Tag `kn02a` sichtbar
-* Screenshot Browser: `http://localhost:8080/helloworld.html` mit sichtbarem Inhalt der Seite
+### Docker Desktop – Image sichtbar
+![Docker Desktop](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02/dockerdesktop.png)
+
+### Browser – helloworld.html aufgerufen
+![Hello World Site](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN02/hello_world_site.png)
