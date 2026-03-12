@@ -1,7 +1,7 @@
 # KN04 – Docker Compose – Abgabe-Dokumentation
 
 Name: Micha Eaton  
-Datum: ____________________  
+Datum: 12.03.2026 
 System: Docker Desktop auf Windows (CMD/PowerShell)
 
 ---
@@ -168,13 +168,3 @@ docker compose logs --follow
 
 ---
 
-## 6. Checkliste
-
-- [x] `docker-compose.yml` erstellt mit beiden Services, Netzwerk und korrekten Parametern
-- [x] Netzwerk mit `subnet: 172.10.0.0/16`, `ip_range: 172.10.5.0/24`, `gateway: 172.10.5.254`
-- [x] Container-Namen `m347-kn04a-web` und `m347-kn04a-db` gesetzt
-- [x] Webserver verwendet Dockerfile aus KN02
-- [x] Datenbank verwendet `mariadb:latest` direkt in der YAML-Datei
-- [x] `docker compose up` Befehle dokumentiert und erklärt
-- [ ] Screenshot `info.php` (REMOTE_ADDR + SERVER_ADDR sichtbar)
-- [ ] Screenshot `db.php` (Datenbankverbindung nachgewiesen)
