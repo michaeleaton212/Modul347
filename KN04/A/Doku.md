@@ -1,7 +1,7 @@
 # KN04 – Docker Compose – Abgabe-Dokumentation
 
 Name: Micha Eaton  
-Datum: 12.03.2026 
+Datum: 12.03.2026  
 System: Docker Desktop auf Windows (CMD/PowerShell)
 
 ---
@@ -86,7 +86,40 @@ COPY db.php /var/www/html/db.php
 
 ---
 
-## 4. Befehle, die `docker compose up` ausführt
+## 4. PHP-Dateien
+
+### info.php
+
+```php
+<?php
+phpinfo();
+?>
+```
+
+### db.php
+
+```php
+<?php
+$host = "db";
+$user = "kn04user";
+$pass = "kn04pass";
+$dbname = "kn04db";
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+if ($conn->connect_error) {
+    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
+}
+
+echo "Verbindung zur Datenbank erfolgreich!";
+?>
+```
+
+> ⚠️ **Hinweis:** Die Credentials in `db.php` (`kn04user`, `kn04pass`, `kn04db`) müssen mit den Umgebungsvariablen in der `docker-compose.yml` übereinstimmen.
+
+---
+
+## 5. Befehle, die `docker compose up` ausführt
 
 `docker compose up` ist ein **Sammelbefehl**, der mehrere Arbeitsschritte auf einmal ausführt. Er baut Images bei Bedarf, erstellt Container, startet sie und zeigt deren Logs im Terminal an.
 
@@ -154,17 +187,14 @@ docker compose logs --follow
 
 ---
 
-## 5. Screenshots
+## 6. Screenshots
 
-### 5.1 Screenshot — `info.php` (REMOTE_ADDR und SERVER_ADDR sichtbar)
+### 6.1 Screenshot — `info.php` (REMOTE_ADDR und SERVER_ADDR sichtbar)
 
 ![info.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/Aufgabe_a_PHP_site.png)
 
 ---
 
-### 5.2 Screenshot — `db.php` (Datenbankverbindung im gleichen Netzwerk)
+### 6.2 Screenshot — `db.php` (Datenbankverbindung im gleichen Netzwerk)
 
 ![db.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/Aufgabe_a_DB.png)
-
----
-
