@@ -191,10 +191,10 @@ docker compose logs --follow
 
 ### 6.1 Screenshot — `info.php` (REMOTE_ADDR und SERVER_ADDR sichtbar)
 
-![info.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/Aufgabe_a_PHP_site.png)
+![info.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/A/Aufgabe_a_PHP_site.png)
 
 ---
 
 ### 6.2 Screenshot — `db.php` (Datenbankverbindung im gleichen Netzwerk)
 
-![db.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/Aufgabe_a_DB.png)
+![db.php Screenshot](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/A/Aufgabe_a_DB.png)
