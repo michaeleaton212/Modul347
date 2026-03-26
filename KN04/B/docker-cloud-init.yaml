@@ -1,149 +1,144 @@
 #cloud-config
+
+#Users
 users:
-  - name: ubuntu
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: users, admin
-    home: /home/ubuntu
-    shell: /bin/bash
-    ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCUBo+qnNu5xxM9vfz4C04M36FHxHNrEMdm5TkFj1/SfVtqunlUOeMpu7nFCZZKnX8HYwf/MkjcBiTYAgncxku8grwl6XuW/pcvmb6/ghSIaw4xtRRSzit7omqJ5d8kXB3+Nd1aaMHsjfly4nkaqswhySVXQqr8Hw6DbWVw8jLLVKEE+5NZHY33hJkhJwK4blCllsGpmQaKi1qxjsN0hZOWNK01iJAydwD8t2xJ0NOYbq8Qas5IyPnRN7SPxvEhIP6WLQ6Ym6Dmf8FwNW1cHLTKabgjzt5f/HKUkKS89dPd3fn4nnFli1BOMECGUIvVlOw2pQNri7+04OOfn2FGlqr5 teacher
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tTU7K5QS1ZQkdowerem4fJE4ztxgeXFhJEzBSCmtR michael.eaton@edu.tbz.ch
+  - name: ubuntu                        # Create user named "ubuntu"
+    sudo: ALL=(ALL) NOPASSWD:ALL        # Allow sudo without password
+    groups: users, admin                # Add to users and admin groups
+    home: /home/ubuntu                  # Set home directory
+    shell: /bin/bash                    # Set default shell to bash
+    ssh_authorized_keys:                # List of allowed SSH public keys
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCUBo+qnNu5xxM9vfz4C04M36FHxHNrEMdm5TkFj1/SfVtqunlUOeMpu7nFCZZKnX8HYwf/MkjcBiTYAgncxku8grwl6XuW/pcvmb6/ghSIaw4xtRRSzit7omqJ5d8kXB3+Nd1aaMHsjfly4nkaqswhySVXQqr8Hw6DbWVw8jLLVKEE+5NZHY33hJkhJwK4blCllsGpmQaKi1qxjsN0hZOWNK01iJAydwD8t2xJ0NOYbq8Qas5IyPnRN7SPxvEhIP6WLQ6Ym6Dmf8FwNW1cHLTKabgjzt5f/HKUkKS89dPd3fn4nnFli1BOMECGUIvVlOw2pQNri7+04OOfn2FGlqr5 teacher  # SSH key for "teacher"
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tTU7K5QS1ZQkdowerem4fJE4ztxgeXFhJEzBSCmtR michael.eaton@edu.tbz.ch  # SSH key for michael.eaton
 
-ssh_pwauth: false
-disable_root: false
-package_update: true
-package_upgrade: true
+# ── SSH / Root
+ssh_pwauth: false       # Disable password-based SSH login (keys only)
+disable_root: false     # Keep root account enabled
 
+# ── System Updates 
+package_update: true    # Refresh apt package list on first boot
+package_upgrade: true   # Upgrade all installed packages on first boot
+
+# ── Create Docker Group 
 groups:
-  - docker
+  - docker              # Create the "docker" system group
 
 system_info:
   default_user:
-    groups: [docker]
+    groups: [docker]    # Add the default user to the docker group
 
+# ── Install Packages 
 packages:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - gnupg
-  - lsb-release
-  - unattended-upgrades
+  - apt-transport-https       # Allows apt to use HTTPS sources
+  - ca-certificates           # Trusted SSL/TLS root certificates
+  - curl                      # Tool for making HTTP requests
+  - gnupg                     # GPG tool for verifying package signatures
+  - lsb-release               # Provides Linux distro version info
+  - unattended-upgrades       # Automatically installs security updates
 
-final_message: "The system is finally up, after $UPTIME seconds"
+final_message: "The system is finally up, after $UPTIME seconds"  # Printed when cloud-init finishes
 
+# ── Write Files 
 write_files:
-  - path: /opt/m346/docker-compose.yml
-    permissions: "0644"
-    owner: root:root
+
+  # Define the two Docker services: web (PHP/Apache) and db (MySQL)
+  - path: /opt/m346/docker-compose.yml  # Write docker-compose file to this path
+    permissions: "0644"                 # Readable by everyone, writable by root
+    owner: root:root                    # Owned by root user and group
     content: |
       services:
         web:
-          build: /opt/m346
-          container_name: m346-web
+          build: /opt/m346             # Build custom image using Dockerfile in /opt/m346
+          container_name: m346-web     # Name the web container "m346-web"
           ports:
-            - "80:80"
+            - "80:80"                  # Map host port 80 to container port 80
           volumes:
-            - /opt/m346/app:/var/www/html
+            - /opt/m346/app:/var/www/html   # Mount PHP app files into Apache root
           depends_on:
-            - db
-          restart: unless-stopped
+            - db                       # Wait for db container to start first
+          restart: unless-stopped      # Auto-restart unless manually stopped
 
         db:
-          image: mysql:8.0
-          container_name: m346-db
+          image: mysql:8.0             # Use official MySQL 8.0 image
+          container_name: m346-db      # Name the db container "m346-db"
           environment:
-            MYSQL_ROOT_PASSWORD: rootpwd
-            MYSQL_DATABASE: kn04db
+            MYSQL_ROOT_PASSWORD: rootpwd   # Set MySQL root password
+            MYSQL_DATABASE: kn04db         # Create this database on startup
           volumes:
-            - /opt/m346/db-init:/docker-entrypoint-initdb.d
-          restart: unless-stopped
+            - /opt/m346/db-init:/docker-entrypoint-initdb.d  # Run SQL files in this dir on first start
+          restart: unless-stopped      # Auto-restart unless manually stopped
 
-  - path: /opt/m346/Dockerfile
-    permissions: "0644"
-    owner: root:root
+  # Custom PHP/Apache image with mysqli extension enabled
+  - path: /opt/m346/Dockerfile         # Write Dockerfile to this path
+    permissions: "0644"                # Readable by everyone, writable by root
+    owner: root:root                   # Owned by root
     content: |
-      FROM php:8.2-apache
-      RUN docker-php-ext-install mysqli
+      FROM php:8.2-apache              # Base image: PHP 8.2 with Apache
+      RUN docker-php-ext-install mysqli   # Install mysqli extension for MySQL connectivity
 
-  - path: /opt/m346/db-init/init.sql
-    permissions: "0644"
-    owner: root:root
-    content: |
-      CREATE DATABASE IF NOT EXISTS kn04db;
-      USE kn04db;
-
-  - path: /opt/m346/app/index.php
-    permissions: "0644"
-    owner: root:root
-    content: |
-      <?php
-      echo "<h1>M346 Docker Compose Cloud</h1>";
-      echo "<p><a href='db.php'>Zur db.php</a></p>";
-      echo "<p><a href='info.php'>Zur info.php</a></p>";
-      ?>
-
-  - path: /opt/m346/app/db.php
-    permissions: "0644"
-    owner: root:root
+  # PHP page that connects to MySQL and queries the user table
+  - path: /opt/m346/app/db.php         # Write db.php to Apache web root
+    permissions: "0644"                # Readable by everyone, writable by root
+    owner: root:root                   # Owned by root
     content: |
       <html>
-
       <head></head>
-
       <body>
           Diese Seite macht eine Abfrage auf die Datenbank. <br />
           Das ausgeführte Query ist: <i>select Host, User from mysql.user;</i><br /><br />
           Das Resultat: <br />
           <?php
-          //database (angepasst für m347)
-          $servername = "db";
-          $username = "root";
-          $password = "rootpwd";
-          $dbname = "kn04db";
+          $servername = "db";       // Hostname matches the Compose service name "db"
+          $username = "root";       // MySQL root user
+          $password = "rootpwd";    // MySQL root password (matches compose env)
+          $dbname = "kn04db";       // Database to connect to
 
-          // Create connection
-          $conn = new mysqli($servername, $username, $password, $dbname);
-          // Check connection
-          if ($conn->connect_error) {
-              die("Connection failed: " . $conn->connect_error);
+          $conn = new mysqli($servername, $username, $password, $dbname);  // Open DB connection
+          if ($conn->connect_error) {                                        // Check if connection failed
+              die("Connection failed: " . $conn->connect_error);            // Stop and show error
           }
 
-          $sql = "select Host, User from mysql.user;";
-          $result = $conn->query($sql);
-          while ($row = $result->fetch_assoc()) {
-              echo ("<li>" . $row["Host"] . " / " . $row["User"] . "</li>");
+          $sql = "select Host, User from mysql.user;";   // Query all MySQL users
+          $result = $conn->query($sql);                  // Execute the query
+          while ($row = $result->fetch_assoc()) {        // Loop through each result row
+              echo ("<li>" . $row["Host"] . " / " . $row["User"] . "</li>");  // Print host and username
           }
-          //var_dump($result);
           ?>
       </body>
-
       </html>
 
-  - path: /opt/m346/app/info.php
-    permissions: "0644"
-    owner: root:root
+  # PHP info page — displays all PHP configuration details
+  - path: /opt/m346/app/info.php       # Write info.php to Apache web root
+    permissions: "0644"                # Readable by everyone, writable by root
+    owner: root:root                   # Owned by root
     content: |
       <?php
-
-      // Show all information, defaults to INFO_ALL
-      phpinfo();
-
+      phpinfo();   # Output full PHP configuration info page
       ?>
 
+# ── Run Commands on First Boot 
 runcmd:
-  - mkdir -p /etc/apt/keyrings
-  - mkdir -p /opt/m346/app
-  - mkdir -p /opt/m346/db-init
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  - chmod a+r /etc/apt/keyrings/docker.gpg
-  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - apt-get update
-  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  - systemctl enable docker
-  - systemctl start docker
-  - cd /opt/m346 && docker compose up -d --build
-  - sleep 20
-  - docker ps
-  - curl http://localhost/ || true
-  - curl http://localhost/info.php || true
-  - curl http://localhost/db.php || true
+  - mkdir -p /etc/apt/keyrings          # Create directory to store apt GPG keys
+  - mkdir -p /opt/m346/app              # Create app directory for PHP files
+  - mkdir -p /opt/m346/db-init          # Create directory for DB init SQL scripts
+
+  # Add Docker's official GPG key and APT repository
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg  # Download and save Docker GPG key
+  - chmod a+r /etc/apt/keyrings/docker.gpg                                                                    # Make GPG key readable by all users
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null  # Add Docker APT repo
+
+  # Install Docker engine and plugins
+  - apt-get update                                                                    # Refresh package list with new Docker repo
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin   # Install Docker and Compose plugin
+  - systemctl enable docker                                                           # Enable Docker to start on boot
+  - systemctl start docker                                                            # Start Docker service immediately
+
+  # Build and launch containers in the background
+  - cd /opt/m346 && docker compose up -d --build   # Build images and start all containers detached
+  - sleep 20                                        # Wait 20s for containers to become ready
+
+  # Smoke tests to verify everything is running
+  - docker ps                              # List running containers
+  - curl http://localhost/ || true         # Test if index.php responds (ignore errors)
+  - curl http://localhost/info.php || true # Test if info.php responds (ignore errors)
+  - curl http://localhost/db.php || true   # Test if db.php responds (ignore errors)
