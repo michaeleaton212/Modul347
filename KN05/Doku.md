@@ -82,7 +82,7 @@ Die Aenderung am Skript auf dem Host ist sofort im Container sichtbar, da der Or
 
 ## Screencast
 
-<!-- Link AufgabeA.mp4 einfuegen -->
+https://github.com/michaeleaton212/Modul347/blob/main/KN05/AufgabeA.mp4
 
 ---
 ---
@@ -156,7 +156,7 @@ Beide Container koennen auf dieselbe Datei `/data/shared.txt` zugreifen, da sie 
 
 ## Screencast
 
-<!-- Link AufgabeB.mp4 einfuegen -->
+https://github.com/michaeleaton212/Modul347/blob/main/KN05/AufgabeB.mp4
 
 ---
 ---
@@ -223,6 +223,8 @@ Relevante Eintraege in der Ausgabe:
 
 Screenshot: `mount_container1.png`
 
+![mount_container1](https://github.com/michaeleaton212/Modul347/blob/main/KN05/mount_container1.png)
+
 ---
 
 ## Nachweis Container 2
@@ -239,3 +241,5 @@ Relevanter Eintrag in der Ausgabe:
 | Named Volume | `/dev/sde on /data type ext4` |
 
 Screenshot: `mount_container2.png`
+
+![mount_container2](https://github.com/michaeleaton212/Modul347/blob/main/KN05/mount_container2.png)
