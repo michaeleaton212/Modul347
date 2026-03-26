@@ -14,9 +14,21 @@ Zeigen dass ein Bash-Skript auf dem Host direkt im Container ausgefuehrt werden 
 
 ```bash
 docker run -d --name bindtest -v C:\Users\micha\Desktop\TBZ\Modul347\KN05:/mounted nginx
+```
+
+`docker run` startet einen neuen Container. `-d` laesst ihn im Hintergrund laufen. `--name bindtest` gibt dem Container den Namen "bindtest". `-v C:\Users\micha\Desktop\TBZ\Modul347\KN05:/mounted` bindet den Ordner auf dem Host direkt in den Container unter dem Pfad `/mounted` ein. `nginx` ist das Image das verwendet wird.
+
+```bash
 docker ps
+```
+
+Zeigt alle aktuell laufenden Container an. So kann man pruefen ob der Container erfolgreich gestartet wurde.
+
+```bash
 docker exec -it bindtest bash
 ```
+
+Oeffnet eine interaktive Bash-Shell im laufenden Container "bindtest". `-it` steht fuer interaktiv und Terminal, damit man Befehle eingeben kann.
 
 ---
 
@@ -42,6 +54,8 @@ echo "==========================="
 bash /mounted/myscript.sh
 ```
 
+Fuehrt das Skript `myscript.sh` aus, das im eingebundenen Ordner `/mounted` liegt. `bash` gibt an, dass es sich um ein Bash-Skript handelt.
+
 Ausgabe:
 ```
 ===========================
@@ -54,13 +68,15 @@ Version 1 - Erste Ausgabe
 
 ### Skript auf dem Host aendern
 
-Die Zeile `Version 1 - Erste Ausgabe` wird zu `Version 2 - Geaenderte Ausgabe` geaendert und gespeichert.
+Die Zeile `Version 1 - Erste Ausgabe` wird zu `Version 2 - Geaenderte Ausgabe` geaendert und gespeichert. Da es ein Bind Mount ist, sieht der Container die Aenderung sofort ohne Neustart.
 
 ### Skript nochmals ausfuehren (Version 2)
 
 ```bash
 bash /mounted/myscript.sh
 ```
+
+Derselbe Befehl wie zuvor. Da die Datei auf dem Host geaendert wurde, zeigt der Container nun die neue Version.
 
 Ausgabe:
 ```
@@ -99,10 +115,27 @@ Zwei Container verwenden dasselbe Named Volume und koennen gegenseitig Daten les
 
 ```bash
 docker volume create meinvolume
+```
+
+Erstellt ein neues Named Volume mit dem Namen "meinvolume". Dieses Volume wird von Docker verwaltet und bleibt auch nach dem Stoppen der Container erhalten.
+
+```bash
 docker run -d --name container1 -v meinvolume:/data nginx
+```
+
+Startet einen Container namens "container1" mit nginx. `-v meinvolume:/data` haengt das Named Volume "meinvolume" unter dem Pfad `/data` im Container ein.
+
+```bash
 docker run -d --name container2 -v meinvolume:/data nginx
+```
+
+Startet einen zweiten Container namens "container2" mit demselben Volume. Beide Container teilen sich nun denselben Speicher unter `/data`.
+
+```bash
 docker ps
 ```
+
+Zeigt alle laufenden Container an. Beide Container muessen sichtbar sein.
 
 ---
 
@@ -112,9 +145,21 @@ docker ps
 
 ```bash
 docker exec -it container1 bash
+```
+
+Oeffnet eine Shell in Container 1.
+
+```bash
 echo "Hallo von Container 1" >> /data/shared.txt
+```
+
+Schreibt den Text "Hallo von Container 1" in die Datei `shared.txt` im Volume. `>>` haengt den Text an, ohne die Datei zu ueberschreiben.
+
+```bash
 cat /data/shared.txt
 ```
+
+Liest den Inhalt der Datei `shared.txt` und gibt ihn aus. `cat` zeigt den gesamten Dateiinhalt im Terminal an.
 
 Ausgabe:
 ```
@@ -125,20 +170,34 @@ Hallo von Container 1
 
 ```bash
 docker exec -it container2 bash
-cat /data/shared.txt
-echo "Antwort von Container 2" >> /data/shared.txt
 ```
+
+Oeffnet eine Shell in Container 2.
+
+```bash
+cat /data/shared.txt
+```
+
+Liest dieselbe Datei wie in Container 1. Da beide dasselbe Volume verwenden, ist der Eintrag von Container 1 bereits sichtbar.
 
 Ausgabe von `cat`:
 ```
 Hallo von Container 1
 ```
 
+```bash
+echo "Antwort von Container 2" >> /data/shared.txt
+```
+
+Fuegt einen neuen Eintrag von Container 2 in die Datei ein.
+
 ### Container 1 – Nochmals lesen
 
 ```bash
 cat /data/shared.txt
 ```
+
+Liest die Datei erneut in Container 1. Der Eintrag von Container 2 ist nun ebenfalls sichtbar.
 
 Ausgabe:
 ```
@@ -200,18 +259,31 @@ volumes: # Volumes deklarieren
 
 ```bash
 docker compose up -d
+```
+
+Startet alle in der `docker-compose.yml` definierten Container im Hintergrund. `-d` steht fuer "detached", also ohne blockierendes Terminal.
+
+```bash
 docker compose exec container1 bash
+```
+
+Oeffnet eine interaktive Shell im laufenden Container "container1". So kann man Befehle direkt im Container ausfuehren.
+
+```bash
 docker compose exec container2 bash
 ```
+
+Dasselbe wie oben, jedoch fuer "container2".
 
 ---
 
 ## Nachweis Container 1
 
-Befehl:
 ```bash
 mount
 ```
+
+Zeigt alle aktuell eingebundenen Dateisysteme im Container an. Damit kann man pruefen, ob alle drei Speichertypen korrekt eingebunden wurden.
 
 Relevante Eintraege in der Ausgabe:
 
@@ -229,10 +301,11 @@ Screenshot: `mount_container1.png`
 
 ## Nachweis Container 2
 
-Befehl:
 ```bash
 mount
 ```
+
+Zeigt die eingebundenen Dateisysteme in Container 2. Hier muss nur das Named Volume unter `/data` sichtbar sein.
 
 Relevanter Eintrag in der Ausgabe:
 
