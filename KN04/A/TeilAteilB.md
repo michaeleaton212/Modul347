@@ -217,8 +217,8 @@ Die Webanwendung war anschliessend unter `http://localhost:8080` erreichbar und 
 
 ### Screenshot 1 – info.php
 
-![info.php](./screenshot-info.png)
+![info.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/A/info.png)
 
 ### Screenshot 2 – db.php
 
-![db.php](./screenshot-db.png)
+![db.php](https://raw.githubusercontent.com/michaeleaton212/Modul347/main/KN04/A/db.png)
