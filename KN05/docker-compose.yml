@@ -1,0 +1,20 @@
+services: # Container definieren
+  container1: # Erster Container
+    image: nginx # nginx verwenden
+    volumes: # Speicher anhaengen
+      - type: volume # Persistenter Speicher
+        source: meinvolume # Volume auswaehlen
+        target: /data # Einhängepunkt setzen
+      - type: bind # Hostordner einbinden
+        source: C:\Users\micha\Desktop\TBZ\Modul347\KN05 # Hostpfad angeben
+        target: /mounted # Einhängepunkt setzen
+      - type: tmpfs # RAM-Speicher einbinden
+        target: /tmpdata # Einhängepunkt setzen
+
+  container2: # Zweiter Container
+    image: nginx # nginx verwenden
+    volumes: # Speicher anhaengen
+      - meinvolume:/data # Volume kurz einbinden
+
+volumes: # Volumes deklarieren
+  meinvolume: # Volume erstellen
