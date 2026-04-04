@@ -1,1 +1,1 @@
-'*.iso' | Out-File -Encoding utf8 .gitignore
+echo "*.iso" > .gitignore
