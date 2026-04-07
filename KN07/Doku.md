@@ -38,9 +38,9 @@ Ingress ist ein einziger Einstiegspunkt in den Cluster der eingehenden HTTP/HTTP
 
 ### Wofuer ist ein StatefulSet?
 
-Ein StatefulSet ist wie ein Deployment, aber fuer Anwendungen bei denen jede Instanz eine eigene Identitaet und eigene Daten hat die erhalten bleiben muessen. Jeder Pod bekommt einen stabilen Namen und eigenen persistenten Speicher.
+Ein StatefulSet ist wie ein Deployment, aber fuer Anwendungen bei denen jede Instanz eine eigene Identitaet und eigene Daten hat die erhalten bleiben muessen. Jeder Pod bekommt einen stabilen Namen und eigenen persistenten Speicher. Pods werden in einer festen Reihenfolge gestartet und gestoppt.
 
-Beispiel: Eine MongoDB im Cluster sollte als StatefulSet betrieben werden, weil die Daten nach einem Neustart erhalten bleiben muessen.
+Beispiel: **Apache Kafka** ist ein Message Broker der als Cluster betrieben wird. Jeder Kafka-Broker hat eine eigene Broker-ID und speichert seine eigenen Partitionen auf dem Disk. Wuerde man Broker `kafka-1` neu starten muss er wieder seine eigenen Partitionsdaten laden und unter der gleichen Broker-ID im Cluster erreichbar sein. Andere Broker und Clients kennen ihn unter diesem stabilen Namen. Mit einem normalen Deployment waere das nicht moeglich da Pods austauschbar sind und keinen stabilen Namen haben.
 
 ---
 
@@ -135,7 +135,7 @@ Der webapp-service ist vom Typ `NodePort` und ist von aussen erreichbar. Der mon
 
 ### Webseite ueber zwei Nodes aufrufen
 
-Die Webseite ist ueber den NodePort auf jeder Node-IP erreichbar. Um die Webseite aufzurufen wird die IP-Adresse eines Nodes mit dem NodePort kombiniert.
+Die Webseite ist ueber den NodePort auf jeder Node-IP erreichbar. Um herauszufinden wie die Webseite aufgerufen werden kann wurde zuerst der Befehl `microk8s kubectl describe service webapp-service` ausgefuehrt. Dort sieht man unter `NodePort` den Port `30100/TCP`. Dieser Port wird dann mit der oeffentlichen IP-Adresse eines Nodes kombiniert um die URL zu bilden. Da der Service vom Typ `NodePort` ist exponiert Kubernetes diesen Port automatisch auf allen Nodes des Clusters.
 
 **Node 1 (98.92.66.169):**
 
