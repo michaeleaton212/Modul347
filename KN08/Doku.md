@@ -437,23 +437,38 @@ Der neue Titel "TBZ Crypto Exchange v3" bestaetigt dass das Update erfolgreich w
 
 ## Schritt 9: Multistage Dockerfile
 
-Das Dockerfile beschreibt wie ein Docker Image gebaut wird. Ein Multistage Dockerfile hat mehrere Phasen - in diesem Fall wird die App direkt im Docker Build gebaut statt manuell vorher.
+Das Dockerfile wurde auf ein Multistage Dockerfile optimiert. Das bedeutet der Build-Schritt ist jetzt direkt Teil des Dockerfiles - es ist kein manuelles `npm run build` mehr noetig.
+
+**Was ist ein Multistage Dockerfile?**
+Ein Multistage Dockerfile hat mehrere `FROM` Anweisungen. Jede `FROM` startet eine neue Build-Phase. In der ersten Phase (Builder Stage) wird die App gebaut. In der zweiten Phase wird nur das Ergebnis in ein schlankes nginx Image kopiert. Der Vorteil: Das finale Image enthaelt keine Build-Tools wie Node.js - es ist viel kleiner und sicherer.
 
 ```dockerfile
+FROM node:18-alpine AS builder
+# Erste Stage: Builder
+# node:18-alpine - Node.js Version 18 auf Alpine Linux
+# AS builder - gibt dieser Stage den Namen "builder" fuer spaetere Referenz
+WORKDIR /app
+# WORKDIR setzt das Arbeitsverzeichnis im Container auf /app
+COPY app/package.json .
+# Zuerst nur package.json kopieren - Docker kann den npm install Schritt so cachen
+RUN npm install
+# RUN fuehrt einen Befehl waehrend des Builds aus - installiert alle Abhaengigkeiten
+COPY app/ .
+# Den restlichen Code kopieren
+RUN npm run build
+# React App bauen - erstellt optimierte Dateien im /app/build Ordner
+
 FROM nginx:alpine
-# FROM - gibt das Basis-Image an von dem wir starten
-# nginx - ein Webserver der statische Dateien ausliefert
-# alpine - eine sehr kleine Linux-Distribution (nur ca. 5MB)
-# Das vollstaendige Image nginx:alpine ist ca. 20MB gross
-
-COPY app/build/ /usr/share/nginx/html
-# COPY - kopiert Dateien vom lokalen Computer ins Image
-# app/build/ - der Quellordner mit den gebauten React-Dateien
-# /usr/share/nginx/html - der Zielordner wo nginx Dateien ausliefert
-
+# Zweite Stage: Das finale Image
+# Startet komplett neu mit einem sauberen nginx Image
+# Alles aus der Builder Stage (Node.js, node_modules etc.) wird verworfen
+# nginx - Webserver der statische Dateien ausliefert
+# alpine - sehr kleine Linux-Distribution
+COPY --from=builder /app/build /usr/share/nginx/html
+# --from=builder kopiert Dateien aus der Builder Stage
+# Nur die fertigen Build-Dateien werden ins finale Image kopiert
 EXPOSE 80
-# EXPOSE - dokumentiert welcher Port vom Container verwendet wird
-# 80 ist der Standard HTTP-Port
+# Dokumentiert dass der Container Port 80 verwendet (Standard HTTP-Port)
 ```
 
 ```bash
