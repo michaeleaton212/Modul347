@@ -15,6 +15,13 @@ Eine **Replica** beschreibt wie viele identische Kopien eines Pods gleichzeitig 
 - **Pod** = eine einzelne laufende Instanz der Anwendung
 - **Replica** = die gewuenschte Anzahl solcher Instanzen die Kubernetes aufrechterhalten soll
 
+| | Pod | Replica |
+|---|---|---|
+| Was ist es? | Eine einzelne laufende Instanz | Eine Zahl: wie viele Pods laufen sollen |
+| Wird neu gestartet bei Absturz? | Nein (alleine deployed) | Ja, Kubernetes gleicht automatisch aus |
+| Managed von? | Direkt (manuell) | ReplicaSet / Deployment |
+| Kurzlebig? | Ja | Konzept ist dauerhaft, einzelne Pods nicht |
+
 ---
 
 ### Unterschied zwischen Service und Deployment
@@ -26,8 +33,15 @@ Ein **Service** loest ein anderes Problem: Pods sind vergaenglich. Sie sterben, 
 - **Deployment** = sorgt dafuer dass die richtigen Pods in der richtigen Anzahl laufen
 - **Service** = sorgt dafuer dass man diese Pods stabil erreichen kann
 
----
+| | Deployment | Service |
+|---|---|---|
+| Zweck | Anwendung am Laufen halten | Anwendung erreichbar machen |
+| Verwaltet | Pods und Replicas | Netzwerkzugang zu Pods |
+| Stabil bei Pod-Neustart? | Nein, erstellt neue Pods | Ja, IP und DNS bleiben gleich |
+| Rolling Updates? | Ja | Nein |
+| Weiss wo Pods sind? | Ja (erstellt sie selbst) | Ja (per Label Selector) |
 
+---
 ### Welches Problem loest Ingress?
 
 Ohne Ingress braucht man fuer jeden Service der nach aussen exponiert werden soll einen eigenen LoadBalancer oder NodePort. Das bedeutet bei 10 Services: 10 separate externe IP-Adressen und hohe Kosten.
