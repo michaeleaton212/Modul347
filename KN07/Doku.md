@@ -95,7 +95,7 @@ microk8s kubectl apply -f webapp.yaml
 
 Laufende Pods nach dem Deployment:
 
-![Running Pods](KNO7_running_pods.png)
+![Running Pods](KN07_running_pods.png)
 
 ---
 
@@ -107,7 +107,7 @@ Der Befehl `microk8s kubectl describe service webapp-service` zeigt alle Details
 microk8s kubectl describe service webapp-service
 ```
 
-![webapp-service Node 1](KNO7_webapp_service_node1.png)
+![webapp-service Node 1](KN07_webapp_service_node1.png)
 
 ---
 
@@ -115,7 +115,7 @@ microk8s kubectl describe service webapp-service
 
 Der gleiche Befehl auf Node 2 ausgefuehrt. Die Ausgabe ist identisch da alle Nodes im Cluster dieselbe Konfiguration sehen.
 
-![webapp-service Node 2](KNO7_webapp_service_node2.png)
+![webapp-service Node 2](KN07_webapp_service_node2.png)
 
 ---
 
@@ -125,7 +125,7 @@ Der gleiche Befehl auf Node 2 ausgefuehrt. Die Ausgabe ist identisch da alle Nod
 microk8s kubectl describe service mongo-service
 ```
 
-![mongo-service Node 1](KNO7_mongo_service_node1.png)
+![mongo-service Node 1](KN07_mongo_service_node1.png)
 
 **Unterschiede zwischen webapp-service und mongo-service:**
 
@@ -139,11 +139,11 @@ Die Webseite ist ueber den NodePort auf jeder Node-IP erreichbar. Um herauszufin
 
 **Node 1 (98.92.66.169):**
 
-![Webseite Node 1](KNO7_webseite_node1.png)
+![Webseite Node 1](KN07_webseite_node1.png)
 
 **Node 2 (3.237.1.238):**
 
-![Webseite Node 2](KNO7_webseite_node2.png)
+![Webseite Node 2](KN07_webseite_node2.png)
 
 ---
 
@@ -182,4 +182,4 @@ Man sieht zwei Unterschiede zum vorherigen Screenshot: Der NodePort ist jetzt `3
 
 **Webseite ueber Port 32000:**
 
-![Webseite Port 32000](KNO7_webseite_port32000.png)
+![Webseite Port 32000](KN07_webseite_port32000.png)
