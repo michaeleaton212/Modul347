@@ -423,7 +423,7 @@ sudo microk8s kubectl get pods
 
 ### Rollout in Aktion
 
-![Rolling Update](KN08_13_Rolling_Update.png)
+![Rolling Update](KN08_15_Update_Rollout.png)
 
 Man sieht die neuen Pods `frontend-84bd66fcc4` werden gestartet. Kubernetes faehrt den alten Pod erst herunter wenn der neue bereit ist.
 
