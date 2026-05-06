@@ -17,15 +17,15 @@ Die Datenbank wurde als MariaDB-Instanz auf AWS RDS erstellt. AWS RDS ist ein ve
 
 In der AWS Console wurde unter RDS eine neue MariaDB-Instanz mit folgenden Einstellungen erstellt:
 - DB Identifier: `kn08-db`
-- Engine: MariaDB
-- Template: Free tier
+- Engine: MariaDB(DB Software)
+- Template: Free tier(Alle Einstellungen auf Minimum setzen.)
 - Public access: Yes
 
 ![RDS Available](KN08_RDS_Available.png)
 
 Die Datenbank ist mit Status **Verfuegbar** bereit.
 
-Der Endpoint der Datenbank lautet `kn08-db.c36osqe2crs9.us-east-1.rds.amazonaws.com`:
+Der Endpoint der Datenbank lautet `kn08-db.c36osqe2crs9.us-east-1.rds.amazonaws.com`: (Adresse zum Verbinden mit der Datenbank.)
 
 ![RDS Endpoint](KN08_02_RDS_Endpoint.png)
 
@@ -36,6 +36,13 @@ Das initiale SQL-Script wurde auf Node 1 eingespielt. Der folgende Befehl verbin
 ```bash
 mysql -h kn08-db.c36osqe2crs9.us-east-1.rds.amazonaws.com -P 3306 -u admin -p < ~/m347kn08/database/m347_KN08_DB.sql
 ```
+| Parameter | Bedeutung |
+|-----------|-----------|
+| `-h kn08-db.c36osqe2crs9...` | Hostname des AWS RDS Endpoints |
+| `-P 3306` | Port (3306 = Standard MySQL/MariaDB) |
+| `-u admin` | Datenbankbenutzer |
+| `-p` | Passwort wird interaktiv abgefragt |
+| `< m347_KN08_DB.sql` | SQL-Datei wird als Input weitergeleitet und automatisch ausgefuehrt |
 
 Anschliessend wurde die Datenbank geprueft:
 
