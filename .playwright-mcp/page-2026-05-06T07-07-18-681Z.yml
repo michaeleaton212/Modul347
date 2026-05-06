@@ -1,0 +1,3 @@
+- generic [ref=e2]:
+  - generic [ref=e3]: "ubuntu@ip-172-31-76-72: ~"
+  - generic [ref=e4]: ubuntu@ip-172-31-76-72:~$ microk8s kubectl get services NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE account-service NodePort 10.152.183.254 <none> 8080:30080/TCP 28d buysell-service NodePort 10.152.183.103 <none> 8002:30002/TCP 28d frontend-service LoadBalancer 10.152.183.66 <pending> 80:30100/TCP 28d kubernetes ClusterIP 10.152.183.1 <none> 443/TCP 29d mongo-service ClusterIP 10.152.183.124 <none> 27017/TCP 28d sendreceive-service NodePort 10.152.183.224 <none> 8003:30003/TCP 28d webapp-service NodePort 10.152.183.110 <none> 3000:32000/TCP 28d ubuntu@ip-172-31-76-72:~$

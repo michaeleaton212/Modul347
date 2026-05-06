@@ -1,0 +1,3 @@
+- generic [ref=e2]:
+  - generic [ref=e3]: "ubuntu@ip-172-31-76-72: ~"
+  - generic [ref=e4]: "ubuntu@ip-172-31-76-72:~$ microk8s kubectl get secret mongo-secret -o yaml apiVersion: v1 data: mongo-password: bW9uZ29wYXNzd29yZA== mongo-user: bW9uZ291c2Vy kind: Secret metadata: annotations: kubectl.kubernetes.io/last-applied-configuration: | {\"apiVersion\":\"v1\",\"data\":{\"mongo-password\":\"bW9uZ29wYXNzd29yZA==\", \"mongo-user\":\"bW9uZ291c2Vy\"},\"kind\":\"Secret\",\"metadata\":{\"annotations\":{}, \"name\":\"mongo-secret\",\"namespace\":\"default\"},\"type\":\"Opaque\"} creationTimestamp: \"2026-04-07T07:53:26Z\" name: mongo-secret namespace: default resourceVersion: \"5977\" uid: dc25aa0f-c8e4-4c89-b9af-b8a071ed967e type: Opaque ubuntu@ip-172-31-76-72:~$"

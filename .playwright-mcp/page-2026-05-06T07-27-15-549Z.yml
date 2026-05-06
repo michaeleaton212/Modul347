@@ -1,0 +1,3 @@
+- generic [ref=e2]:
+  - generic [ref=e3]: "ubuntu@ip-172-31-76-72: ~"
+  - generic [ref=e4]: "ubuntu@ip-172-31-76-72:~$ microk8s kubectl get deployment sendreceive -o yaml apiVersion: apps/v1 kind: Deployment metadata: name: sendreceive namespace: default spec: replicas: 3 selector: matchLabels: app: sendreceive template: metadata: labels: app: sendreceive spec: containers: - env: - name: ACCOUNT_URL valueFrom: configMapKeyRef: key: ACCOUNT_URL name: crypto-config image: michaeleatontbz/kn08-sendreceive:v1 imagePullPolicy: IfNotPresent name: sendreceive ports: - containerPort: 8003 protocol: TCP status: availableReplicas: 3 readyReplicas: 3 replicas: 3 updatedReplicas: 3 ubuntu@ip-172-31-76-72:~$"

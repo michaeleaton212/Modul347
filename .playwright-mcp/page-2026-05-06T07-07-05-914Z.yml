@@ -1,0 +1,3 @@
+- generic [ref=e2]:
+  - generic [ref=e3]: "ubuntu@ip-172-31-76-72: ~"
+  - generic [ref=e4]: ubuntu@ip-172-31-76-72:~$ microk8s kubectl get pods NAME READY STATUS RESTARTS AGE account-76975d46f7-5rjj6 1/1 Running 2 (75m ago) 28d buysell-9c8b696cc-rtcnz 1/1 Running 2 (75m ago) 28d frontend-58b7cb9569-7jngk 1/1 Running 0 46m frontend-58b7cb9569-8gjk4 1/1 Running 0 46m mongo-deployment-646dc4c7b7-p2z2b 1/1 Running 3 (75m ago) 28d sendreceive-58697cf65c-t7rlg 1/1 Running 2 (75m ago) 28d webapp-deployment-7d67c77588-9h2hs 1/1 Running 5 (75m ago) 28d webapp-deployment-7d67c77588-b7f9c 1/1 Running 8 (75m ago) 28d webapp-deployment-7d67c77588-gx2x5 1/1 Running 13 (75m ago) 28d ubuntu@ip-172-31-76-72:~$
