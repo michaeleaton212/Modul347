@@ -953,6 +953,12 @@ Replaced __REACT_APP_USER_LOGGED_IN__ with 1
 ## Schritt 10: LoadBalancer Service
 
 *Ziel: Traffic nicht mehr ueber eine einzelne Node-IP leiten sondern ueber einen echten Load Balancer – fuer Produktion noetig.*
+Ein Load Balancer ist ein System das eingehenden Traffic auf mehrere Server verteilt – sozusagen ein Manager der entscheidet wer die Arbeit bekommt und bei Ausfall eines Servers die Arbeit automatisch an einen anderen weitergibt.
+
+| | Verhalten |
+|--|-----------|
+| **Ohne Load Balancer** | Du rufst direkt eine Node-IP auf z.B. `98.93.204.194:30100` – faellt genau diese Node aus, ist die App nicht mehr erreichbar |
+| **Mit Load Balancer** | Du rufst eine einzige Adresse auf – der Load Balancer entscheidet automatisch welche Node den Request bearbeitet und schickt bei Ausfall den Traffic an eine andere |
 
 ### Aufgabe
 
